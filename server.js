@@ -8,7 +8,18 @@ http.createServer((req, res) => {
   const qweree = url.parse(req.url, true);
   const filename = "." + qweree.pathname;
 
-  const fsCallback =
+  const fsCallback = (err, data) =>{
+    if(err){
+      res.writeHead(404, {'Content-Type': 'text/html'});
+      res.write('./404.html');
+      return res.end();
+    }
 
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write(data);
+    return res.end();
+  }
 
-})
+  fs.readFile(filename, fsCallback);
+
+}).listen(8080);
