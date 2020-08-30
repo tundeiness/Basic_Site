@@ -10,16 +10,17 @@ http.createServer((req, res) => {
 
   const fsCallback = (err, data) =>{
     if(err){
-      res.writeHead(404, {'Content-Type': 'text/html'});
-      res.write('./404.html');
+      fs.readFile("./404.html",(err, data)=>{
+        res.end(data);
+      })
+    }else{
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(data);
       return res.end();
     }
 
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write(data);
-    return res.end();
   }
 
   fs.readFile(filename, fsCallback);
 
-}).listen(8080);
+}).listen(8000);
